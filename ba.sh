@@ -32,14 +32,29 @@ for user in $(getent group sudo | cut -d: -f4 | tr ',' '\n'); do
     echo "$user"
 done
 
-echo "Users:"
+echo " _   _                   "
+echo "| | | |___  ___ _ __ ___ "
+echo "| | | / __|/ _ \ '__/ __|"
+echo "| |_| \__ \  __/ |  \__ \"
+echo " \___/|___/\___|_|  |___/"
+
+
+
+
 for user in $(getent passwd | awk -F: '{ print $1 }'); do
     echo "$user"
 done
 
 # Check for installed applications
 declare -a apps=("john" "ophcrack" "hydra" "freeciv" "netcat" "wireshark" "deluge" "gimp")
-echo "Packages:"
+
+echo " ____            _                         "
+echo "|  _ \ __ _  ___| | ____ _  __ _  ___  ___ "
+echo "| |_) / _` |/ __| |/ / _` |/ _` |/ _ \/ __|"
+echo "|  __/ (_| | (__|   < (_| | (_| |  __/\__ \"
+echo "|_|   \__,_|\___|_|\_\__,_|\__, |\___||___/"
+echo "                           |___/           "
+
 for app in "${apps[@]}"; do
     if command -v "$app" > /dev/null; then
         echo "⚠️ $app"
@@ -48,7 +63,13 @@ done
 
 # Check running services
 declare -a services=("apache2" "nginx" "openvpn")
-echo "Services:"
+
+echo " ____                  _               "
+echo "/ ___|  ___ _ ____   _(_) ___ ___  ___ "
+echo "\___ \ / _ \ '__\ \ / / |/ __/ _ \/ __|"
+echo " ___) |  __/ |   \ V /| | (_|  __/\__ \"
+echo "|____/ \___|_|    \_/ |_|\___\___||___/"
+
 for service in "${services[@]}"; do
     if systemctl is-active --quiet "$service"; then
         echo "⚠️ $service"
@@ -56,13 +77,25 @@ for service in "${services[@]}"; do
 done
 
 # Check for forbidden files
-echo "Forbidden Files:"
+
+echo " _____          _     _     _     _            "
+echo "|  ___|__  _ __| |__ (_) __| | __| | ___ _ __  "
+echo "| |_ / _ \| '__| '_ \| |/ _` |/ _` |/ _ \ '_ \ "
+echo "|  _| (_) | |  | |_) | | (_| | (_| |  __/ | | |"
+echo "|_|  \___/|_|  |_.__/|_|\__,_|\__,_|\___|_| |_|"
+
 find / -type f -name "*.mp3" 2>/dev/null | while read -r file; do
     echo "⚠️ 🎶 $file"
 done
 
 # Check SSHD security settings
-echo "SSH:"
+
+echo " ____ ____  _   _ "
+echo "/ ___/ ___|| | | |"
+echo "\___ \___ \| |_| |"
+echo " ___) |__) |  _  |"
+echo "|____/____/|_| |_|"
+
 sshd_config="/etc/ssh/sshd_config"
 declare -A ssh_settings=(
     ["LoginGraceTime"]="20"
@@ -82,7 +115,14 @@ for setting in "${!ssh_settings[@]}"; do
 done
 
 # Check IPv4 and IPv6 forwarding status
-echo "Forwarding:"
+
+echo " _____                                _ _             "
+echo "|  ___|__  _ ____      ____ _ _ __ __| (_)_ __   __ _ "
+echo "| |_ / _ \| '__\ \ /\ / / _` | '__/ _` | | '_ \ / _` |"
+echo "|  _| (_) | |   \ V  V / (_| | | | (_| | | | | | (_| |"
+echo "|_|  \___/|_|    \_/\_/ \__,_|_|  \__,_|_|_| |_|\__, |"
+echo "                                                |___/ "
+
 ipv4_forward=$(sysctl -n net.ipv4.ip_forward)
 ipv6_forward=$(sysctl -n net.ipv6.conf.all.forwarding)
 if [ "$ipv4_forward" -eq 1 ]; then
@@ -97,7 +137,13 @@ else
 fi
 
 # Check for crontabs
-echo "Crontabs:"
+
+echo "  ____                 _        _         "
+echo " / ___|_ __ ___  _ __ | |_ __ _| |__  ___ "
+echo "| |   | '__/ _ \| '_ \| __/ _` | '_ \/ __|"
+echo "| |___| | | (_) | | | | || (_| | |_) \__ \"
+echo " \____|_|  \___/|_| |_|\__\__,_|_.__/|___/"
+
 if [ -z "$(ls /var/spool/cron/crontabs 2>/dev/null)" ]; then
     echo "✅ No crontabs"
 else
@@ -105,7 +151,13 @@ else
 fi
 
 # Check password policy
-echo "Password Policies:"
+
+echo " ____                                     _ "
+echo "|  _ \ __ _ ___ _____      _____  _ __ __| |"
+echo "| |_) / _` / __/ __\ \ /\ / / _ \| '__/ _` |"
+echo "|  __/ (_| \__ \__ \\ V  V / (_) | | | (_| |"
+echo "|_|   \__,_|___/___/ \_/\_/ \___/|_|  \__,_|"
+
 for user in $(getent passwd | awk -F: '{ print $1 }'); do
     password=$(sudo grep -w "$user" /etc/shadow | cut -d: -f2)
     if [[ -z "$password" || "$password" == "!" || "$password" == "*" ]]; then
