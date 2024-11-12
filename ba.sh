@@ -4,7 +4,12 @@
 clear
 
 # Print header
-echo "REPORT:"
+echo " ____                       _    "
+echo " |  _ \ ___ _ __   ___  _ __| |_ "
+echo " | |_) / _ \ '_ \ / _ \| '__| __|"
+echo " |  _ <  __/ |_) | (_) | |  | |_ "
+echo " |_| \_\___| .__/ \___/|_|   \__|"
+echo "          |_|                    "
 
 # Check firewall status
 if sudo ufw status | grep -q "Status: active"; then
