@@ -4,7 +4,7 @@
 clear
 
 # Print header
-echo " ____                       _    "
+echo "  ____                       _    "
 echo " |  _ \ ___ _ __   ___  _ __| |_ "
 echo " | |_) / _ \ '_ \ / _ \| '__| __|"
 echo " |  _ <  __/ |_) | (_) | |  | |_ "
@@ -19,7 +19,15 @@ else
 fi
 
 # List users and administrators
-echo "Admins:"
+
+echo "    _       _           _           "    
+echo "   / \   __| |_ __ ___ (_)_ __  ___ "
+echo "  / _ \ / _` | '_ ` _ \| | '_ \/ __|"
+echo " / ___ \ (_| | | | | | | | | | \__ \"
+echo "/_/   \_\__,_|_| |_| |_|_|_| |_|___/"
+
+
+
 for user in $(getent group sudo | cut -d: -f4 | tr ',' '\n'); do
     echo "$user"
 done
